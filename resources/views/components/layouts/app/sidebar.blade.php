@@ -9,16 +9,20 @@
     <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-        <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
+        @php
+            $defaultRouteName = auth()->user()->role === 'admin' ? 'userManagement' : 'callLogManagement';
+        @endphp
+
+        <a href="{{ route($defaultRouteName) }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
             <x-app-logo />
         </a>
 
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Platform')" class="grid">
-                @can('userAccess', App\Models\User::class)
+                {{-- @can('userAccess', App\Models\User::class)
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
                         wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                @endcan
+                @endcan --}}
 
                 @can('viewAny', App\Models\User::class)
                     {{-- auth user must be admin --}}

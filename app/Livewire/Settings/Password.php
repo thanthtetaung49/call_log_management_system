@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Settings;
 
+use App\Models\User;
+use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Validation\ValidationException;
-use Livewire\Component;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class Password extends Component
 {
@@ -19,6 +20,10 @@ class Password extends Component
     /**
      * Update the password for the currently authenticated user.
      */
+    public function mount () {
+        $this->authorize('viewAny', User::class);
+    }
+
     public function updatePassword(): void
     {
         try {
